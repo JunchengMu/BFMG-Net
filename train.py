@@ -426,15 +426,7 @@ def main():
             train_dic.write(str(train_dice))
         with open("models/dsb2018_96_Train_woDS/val_dice.txt", 'w') as val_dic:
             val_dic.write(str(val_dice))
-        # with open("models/dsb2018_96_FPN_woDS/train_loss.txt", 'w') as train_los:
-        #     train_los.write(str(train_loss))
-        # with open("models/dsb2018_96_FPN_woDS/val_loss.txt", 'w') as val_los:
-        #     val_los.write(str(val_loss))
 
-        # with open("models/dsb2018_96_ResNet_woDS/train_loss.txt", 'w') as train_los:
-        #     train_los.write(str(train_loss))
-        # with open("models/dsb2018_96_ResNet_woDS/val_loss.txt", 'w') as val_los:
-        #     val_los.write(str(val_loss))
 
         loss()
         dice()
@@ -443,26 +435,16 @@ def main():
 
         trigger += 1
 
-        # if val_log['loss'] < best_loss:
-        #     torch.save(model.state_dict(), 'models/%s/model.pth' %
-        #                config['name'])
-        #     best_loss = val_log['loss']
-        #
+
         if val_log['dice'] > best_dice:
             torch.save(model.state_dict(), 'models/%s/model.pth' %
                        config['name'])
             best_dice = val_log['dice']
-            # if val_log['iou'] > best_iou:
-            #     torch.save(model.state_dict(), 'models/%s/model.pth' %
-            #                config['name'])
-            #     best_iou = val_log['iou']
+
             print("=> saved best model")
             trigger = 0
-        if epoch % 5 == 0 and epoch<50:
-            torch.save(model.state_dict(), 'models/%s/model_epoch_%d.pth' %
-                       (config['name'], epoch))
-            print("=> saved model at epoch %d" % epoch)
-        # early stopping
+
+        early stopping
         if config['early_stopping'] >= 0 and trigger >= config['early_stopping']:
             print("=> early stopping")
             break
